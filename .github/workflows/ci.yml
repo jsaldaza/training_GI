@@ -14,6 +14,8 @@ concurrency:
 permissions:
   contents: read
   checks: write
+  pages: write
+  id-token: write
 
 jobs:
   test:
@@ -105,3 +107,22 @@ jobs:
           name: gradle-test-report
           path: build/reports/tests/test
           if-no-files-found: warn
+
+      - name: Upload Serenity Report to Pages
+        if: github.ref == 'refs/heads/main' && success()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/site/serenity
+
+  deploy-pages:
+    name: Deploy Serenity Report
+    needs: test
+    if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
+    runs-on: ubuntu-22.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
