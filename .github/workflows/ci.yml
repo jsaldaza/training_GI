@@ -84,7 +84,7 @@ jobs:
           ./gradlew clean test --stacktrace \
             -Dserenity.environment=ci \
             -Dwebdriver.driver=remote \
-            -Dwebdriver.remote.url=http://localhost:4444/wd/hub \
+            -Dwebdriver.remote.url=http://localhost:4444/ \
             -Dwebdriver.remote.driver=chrome
 
       - name: Show test failure details
