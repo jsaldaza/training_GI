@@ -50,16 +50,20 @@ jobs:
 
       - name: Wait for Selenium Grid
         run: |
-          for i in {1..60}; do
-            status="$(curl -s http://localhost:4444/status || true)"
-            if echo "$status" | grep -q '"ready":true'; then
+          for i in {1..90}; do
+            status="$(curl -sS -m 2 http://localhost:4444/status || true)"
+            if echo "$status" | grep -Eq '"ready"[[:space:]]*:[[:space:]]*true'; then
               echo "Selenium Grid is ready"
               exit 0
             fi
-            status_hub="$(curl -s http://localhost:4444/wd/hub/status || true)"
-            if echo "$status_hub" | grep -q '"ready":true'; then
+            status_hub="$(curl -sS -m 2 http://localhost:4444/wd/hub/status || true)"
+            if echo "$status_hub" | grep -Eq '"ready"[[:space:]]*:[[:space:]]*true'; then
               echo "Selenium Grid is ready"
               exit 0
+            fi
+            if [ $((i % 10)) -eq 0 ]; then
+              echo "Status /status: ${status:-<empty>}"
+              echo "Status /wd/hub/status: ${status_hub:-<empty>}"
             fi
             echo "Waiting for Selenium Grid..."
             sleep 2
