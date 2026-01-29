@@ -42,7 +42,9 @@ jobs:
         run: chmod +x gradlew
 
       - name: Test
-        run: ./gradlew clean test --stacktrace
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: ./gradlew clean test --stacktrace -Dserenity.environment=ci
 
       - name: Upload Serenity Report
         if: always()
