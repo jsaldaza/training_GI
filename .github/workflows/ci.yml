@@ -77,15 +77,9 @@ jobs:
           exit 1
 
       - name: Test
-        env:
-          CHROME_BIN: ${{ env.CHROME_BIN }}
         run: |
           curl -s http://localhost:4444/status || true
-          ./gradlew clean test --stacktrace \
-            -Dserenity.environment=ci \
-            -Dwebdriver.driver=remote \
-            -Dwebdriver.remote.url=http://localhost:4444/ \
-            -Dwebdriver.remote.driver=chrome
+          ./gradlew clean test --stacktrace
 
       - name: Show test failure details
         if: failure()
