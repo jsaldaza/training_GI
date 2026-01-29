@@ -5,16 +5,18 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.actions.Open;
 
+import static net.serenitybdd.screenplay.Tasks.instrumented;
+
 public class OpenLoginPage implements Task {
 
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-                Open.url(LoginPage.URL)
+                Open.url(LoginPage.url())
         );
     }
 
     public static OpenLoginPage open() {
-        return new OpenLoginPage();
+        return instrumented(OpenLoginPage.class);
     }
 }

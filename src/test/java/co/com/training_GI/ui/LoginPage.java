@@ -1,10 +1,13 @@
 package co.com.training_GI.ui;
 
+import co.com.training_GI.config.TestConfig;
 import net.serenitybdd.screenplay.targets.Target;
 
 public class LoginPage {
 
-    public static final String URL = "https://the-internet.herokuapp.com/login";
+    public static String url() {
+        return TestConfig.loginUrl();
+    }
 
     public static final Target USERNAME_INPUT =
             Target.the("campo de usuario")
