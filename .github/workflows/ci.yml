@@ -38,13 +38,19 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: "gradle"
 
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
       - name: Make Gradle wrapper executable
         run: chmod +x gradlew
 
       - name: Test
         env:
-          CHROME_BIN: /usr/bin/google-chrome
-        run: ./gradlew clean test --stacktrace -Dserenity.environment=ci
+          CHROME_BIN: ${{ env.CHROME_BIN }}
+          CHROMEDRIVER: ${{ env.CHROMEDRIVER }}
+        run: ./gradlew clean test --stacktrace -Dserenity.environment=ci -Dwebdriver.chrome.driver="${CHROMEDRIVER}"
 
       - name: Upload Serenity Report
         if: always()
