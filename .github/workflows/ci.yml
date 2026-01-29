@@ -21,15 +21,11 @@ jobs:
     runs-on: ubuntu-22.04
     services:
       selenium:
-        image: selenium/standalone-chrome:latest
+        image: selenium/standalone-chrome:4.27.0
         ports:
           - 4444:4444
         options: >-
           --shm-size=2g
-          --health-cmd="curl -f http://localhost:4444/status || exit 1"
-          --health-interval=5s
-          --health-timeout=5s
-          --health-retries=30
     strategy:
       fail-fast: false
       matrix:
@@ -54,7 +50,7 @@ jobs:
 
       - name: Wait for Selenium Grid
         run: |
-          for i in {1..30}; do
+          for i in {1..60}; do
             if curl -s http://localhost:4444/status | grep -q '"ready":true'; then
               echo "Selenium Grid is ready"
               exit 0
@@ -63,6 +59,8 @@ jobs:
             sleep 2
           done
           echo "Selenium Grid did not become ready in time"
+          docker ps -a
+          docker logs selenium || true
           exit 1
 
       - name: Test
