@@ -26,6 +26,10 @@ jobs:
           - 4444:4444
         options: >-
           --shm-size=2g
+          --health-cmd="curl -f http://localhost:4444/status || exit 1"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=30
     strategy:
       fail-fast: false
       matrix:
@@ -45,22 +49,13 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: "gradle"
 
-      - name: Set up Chrome
-        uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: stable
-
-      - name: Show Chrome versions
-        run: |
-          google-chrome --version
-
       - name: Make Gradle wrapper executable
         run: chmod +x gradlew
 
       - name: Wait for Selenium Grid
         run: |
           for i in {1..30}; do
-            if curl -s http://localhost:4444/wd/hub/status | grep -q '"ready":true'; then
+            if curl -s http://localhost:4444/status | grep -q '"ready":true'; then
               echo "Selenium Grid is ready"
               exit 0
             fi
