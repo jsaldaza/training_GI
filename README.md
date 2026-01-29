@@ -130,6 +130,10 @@ Actions -> Workflow **CI** -> **Run workflow** -> seleccionar `main`.
 - Revisa el XML: `build/test-results/test/TEST-*.xml`
 - El workflow imprime ese XML automaticamente si hay fallos.
 
+### 8.6 Playbook interno
+Guia reutilizable del CI:
+- `docs/CI_PLAYBOOK.md`
+
 ## 9) Problemas comunes
 
 **Error: `JAVA_HOME` no configurado**
