@@ -79,7 +79,13 @@ jobs:
       - name: Test
         env:
           CHROME_BIN: ${{ env.CHROME_BIN }}
-        run: ./gradlew clean test --stacktrace -Dserenity.environment=ci
+        run: |
+          curl -s http://localhost:4444/status || true
+          ./gradlew clean test --stacktrace \
+            -Dserenity.environment=ci \
+            -Dwebdriver.driver=remote \
+            -Dwebdriver.remote.url=http://localhost:4444/wd/hub \
+            -Dwebdriver.remote.driver=chrome
 
       - name: Upload Serenity Report
         if: always()
