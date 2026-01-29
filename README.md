@@ -36,6 +36,7 @@ src/
   test/
     java/
       co/com/training_GI/
+        config/         <- Configuración por entorno
         runners/        <- Runner de Cucumber (JUnit 5 Suite)
         stepDefinitions <- Steps de Cucumber
         tasks/          <- Acciones del actor (Screenplay)
@@ -96,27 +97,27 @@ También puedes ejecutar desde los archivos `.feature` con el botón de Run.
 
 Este proyecto ya incluye CI en GitHub Actions.
 
-### 8.1 Que hace el pipeline
+### 8.1 Qué hace el pipeline
 - Ejecuta tests en cada `push` y `pull_request` a `main`.
 - Corre UI tests en Selenium Grid dentro de un contenedor.
 - Sube reportes como artifacts (Serenity y Gradle).
 
-### 8.2 Donde ver resultados
+### 8.2 Dónde ver resultados
 1. GitHub -> pestaña **Actions**.
-2. Workflow **CI** -> run mas reciente.
+2. Workflow **CI** -> run más reciente.
 3. En **Artifacts** descarga:
    - `serenity-report`
-- `gradle-test-report`
+   - `gradle-test-report`
 
 ### 8.2.1 Reporte en GitHub Pages (Serenity)
-El pipeline publica automaticamente el reporte Serenity en GitHub Pages (solo en `main`).
+El pipeline publica automáticamente el reporte Serenity en GitHub Pages (solo en `main`).
 
 Pasos para habilitarlo por primera vez:
 1. Repo -> **Settings** -> **Pages**
 2. Source: **GitHub Actions**
 3. Guarda y vuelve a ejecutar el workflow.
 
-La URL publica quedara en el job **Deploy Serenity Report** del run.
+La URL pública quedará en el job **Deploy Serenity Report** del run.
 
 ### 8.3 Ejecutar manualmente
 Actions -> Workflow **CI** -> **Run workflow** -> seleccionar `main`.
@@ -128,10 +129,10 @@ Actions -> Workflow **CI** -> **Run workflow** -> seleccionar `main`.
 
 ### 8.5 Si el CI falla
 - Revisa el XML: `build/test-results/test/TEST-*.xml`
-- El workflow imprime ese XML automaticamente si hay fallos.
+- El workflow imprime ese XML automáticamente si hay fallos.
 
 ### 8.6 Playbook interno
-Guia reutilizable del CI:
+Guía reutilizable del CI:
 - `docs/CI_PLAYBOOK.md`
 
 ## 9) Problemas comunes
@@ -144,6 +145,15 @@ Guia reutilizable del CI:
 
 **Chromedriver / Selenium**
 - Si hay errores con Chrome/driver, asegúrate de tener Chrome actualizado.
+
+## 10) Git Flow (modelo de ramificación)
+
+Este repo usa Git Flow clásico:
+- `main`: releases en producción
+- `develop`: integración de features
+- `feature/*`: trabajo incremental
+- `release/*`: preparación de releases
+- `hotfix/*`: correcciones urgentes
 
 ---
 

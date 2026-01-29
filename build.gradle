@@ -13,6 +13,10 @@ java {
     }
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
 repositories {
     mavenCentral()
 }
@@ -41,14 +45,9 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    systemProperty "file.encoding", "UTF-8"
     if (System.getenv("CI") == "true") {
         systemProperty "serenity.environment", "ci"
-        systemProperty "webdriver.driver", "remote"
-        systemProperty "webdriver.remote.url", "http://localhost:4444/"
-        systemProperty "webdriver.remote.driver", "chrome"
-        systemProperty "serenity.webdriver.driver", "remote"
-        systemProperty "serenity.webdriver.remote.url", "http://localhost:4444/"
-        systemProperty "serenity.webdriver.remote.driver", "chrome"
     }
     finalizedBy 'aggregate'
 }

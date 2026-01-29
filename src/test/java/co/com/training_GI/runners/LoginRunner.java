@@ -9,7 +9,10 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @IncludeEngines("cucumber")
 @SelectClasspathResource("features")
-@ConfigurationParameter(key = Constants.GLUE_PROPERTY_NAME, value = "co.com.training_GI")
+@ConfigurationParameter(
+        key = Constants.GLUE_PROPERTY_NAME,
+        value = "co.com.training_GI.stepDefinitions,co.com.training_GI.hooks"
+)
 @ConfigurationParameter(key = Constants.PLUGIN_PROPERTY_NAME, value = "net.serenitybdd.cucumber.core.plugin.SerenityReporter")
 @ConfigurationParameter(key = Constants.SNIPPET_TYPE_PROPERTY_NAME, value = "camelcase")
 public class LoginRunner {
