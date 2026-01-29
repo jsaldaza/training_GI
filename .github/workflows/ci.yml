@@ -87,6 +87,15 @@ jobs:
             -Dwebdriver.remote.url=http://localhost:4444/wd/hub \
             -Dwebdriver.remote.driver=chrome
 
+      - name: Show test failure details
+        if: failure()
+        run: |
+          ls -la build/test-results/test || true
+          for f in build/test-results/test/TEST-*.xml; do
+            echo "----- $f -----"
+            sed -n '1,200p' "$f"
+          done
+
       - name: Upload Serenity Report
         if: always()
         uses: actions/upload-artifact@v4
