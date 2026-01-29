@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '5.0.4'
+}
+
+group = 'co.com.training_GI'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    // SERENITY 5 (alineado)
+    testImplementation "net.serenity-bdd:serenity-core:5.0.4"
+    testImplementation "net.serenity-bdd:serenity-screenplay:5.0.4"
+    testImplementation "net.serenity-bdd:serenity-screenplay-webdriver:5.0.4"
+    testImplementation "net.serenity-bdd:serenity-cucumber:5.0.4"
+
+    // CUCUMBER (JUnit 4)
+    testImplementation "io.cucumber:cucumber-java:7.14.0"
+    testImplementation "io.cucumber:cucumber-junit-platform-engine:7.14.0"
+
+    // JUNIT 5 PLATFORM
+    testImplementation "org.junit.platform:junit-platform-suite:1.10.2"
+
+    // WEBDRIVER MANAGER
+    testImplementation "io.github.bonigarcia:webdrivermanager:5.6.3"
+
+    // LOGGING
+    testImplementation "ch.qos.logback:logback-classic:1.4.14"
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy 'aggregate'
+}
