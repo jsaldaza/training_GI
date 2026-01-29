@@ -19,6 +19,13 @@ jobs:
   test:
     name: Test (Java ${{ matrix.java }})
     runs-on: ubuntu-22.04
+    services:
+      selenium:
+        image: selenium/standalone-chrome:latest
+        ports:
+          - 4444:4444
+        options: >-
+          --shm-size=2g
     strategy:
       fail-fast: false
       matrix:
@@ -49,6 +56,19 @@ jobs:
 
       - name: Make Gradle wrapper executable
         run: chmod +x gradlew
+
+      - name: Wait for Selenium Grid
+        run: |
+          for i in {1..30}; do
+            if curl -s http://localhost:4444/wd/hub/status | grep -q '"ready":true'; then
+              echo "Selenium Grid is ready"
+              exit 0
+            fi
+            echo "Waiting for Selenium Grid..."
+            sleep 2
+          done
+          echo "Selenium Grid did not become ready in time"
+          exit 1
 
       - name: Test
         env:
