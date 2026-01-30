@@ -48,6 +48,13 @@ test {
     systemProperty "file.encoding", "UTF-8"
     if (System.getenv("CI") == "true") {
         systemProperty "serenity.environment", "ci"
+        // Force remote driver in CI to avoid local ChromeDriver on runners.
+        systemProperty "webdriver.driver", "remote"
+        systemProperty "webdriver.remote.url", "http://localhost:4444/"
+        systemProperty "webdriver.remote.driver", "chrome"
+        systemProperty "serenity.webdriver.driver", "remote"
+        systemProperty "serenity.webdriver.remote.url", "http://localhost:4444/"
+        systemProperty "serenity.webdriver.remote.driver", "chrome"
     }
     finalizedBy 'aggregate'
 }
